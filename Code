@@ -37,14 +37,14 @@ delta = tf.Variable(0.5)
 
 def polynomialNeuralNetLayer(x, w, b, n):                                                 # FUNCTION THAT CREATES A "POLYNOMIAL
     output = tf.abs((tf.matmul(x, w))**2 + b)**(n/2.0)                                      LAYER" UNLIKE THE USUAL DENSELY
-    return output                                                                           CONNECTED LAYER
-    
+    return output                                                                           CONNECTED LAYER (ABS FUNCTION USED
+                                                                                            TO MAKE OUTPUT DIFFERENTIABLE).
 *****************************************************************************************
 
-output1 = n**2 * delta * polynomialNeuralNetLayer(x, w1, b1, n) + (1 - delta) * (w4 * x + b4)    # A WEIGHTED AVERAGE OF A POLYNOMIAL 
-output2 = tf.matmul(output1, w2) + b2                                                       AND A LINEAR LAYER (WEIGHTED BY 
-yHat = tf.matmul(output2, w3) + b3                                                          DELTA) LINEARLY COMBINED WITH 
-                                                                                            WEIGHTS AND BIASES FORMS THE MODEL
+output1 = n**2 * delta * polynomialNeuralNetLayer(x, w1, b1, n) + (1 - delta) * (w4 * x + b4) # A WEIGHTED AVERAGE OF A POLYNOMIAL 
+output2 = tf.matmul(output1, w2) + b2                                                           AND A LINEAR LAYER (WEIGHTED USING 
+yHat = tf.matmul(output2, w3) + b3                                                              DELTA) LINEARLY COMBINED WITH 
+                                                                                                WEIGHTS AND BIASES FORMS THE MODEL
 *****************************************************************************************
 
 J = tf.reduce_mean(tf.abs((y - yHat)))                                                    # THE MEAN OF THE ABSOLUTE VALUE OF  
@@ -73,7 +73,7 @@ plt.xlabel('Epochs')
 plt.show()
 
 degree = np.round(sess.run(n))
-print(degree)
+print("If there is a polynomial relationship between x and y, then the degree of the relationship is : " + str((int) (degree)))
 
 *****************************************************************************************
  
