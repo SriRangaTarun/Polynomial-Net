@@ -1,7 +1,6 @@
 import tensorflow as tf
 import numpy as np                                                                        # IMPORT THE REQUIRED LIBRARIES
 import matplotlib.pyplot as plt                                                           
-import math
 
 *****************************************************************************************
 
@@ -64,9 +63,9 @@ for _ in range(15000):                                                          
                                                                                             EPOCHS AND THE VALUES OF THE
     sess.run(train_step, feed_dict = {x:np.transpose([X]), y:np.transpose([Y])})            ESTIMATED DEGREE N IS PLOTTED
     ns.append(sess.run(n))                                                                  AGAINST THE EPOCHS. THE FINAL VALUE
-                                                                                            OF N IS ROUNDED TO NEAREST INTEGER 
-                                                                                            AND IS PRINTED AS THE PREDICTED 
-                                                                                            DEGREE
+                                                                                            OF N IS ROUNDED OFF TO THE NEAREST 
+                                                                                            INTEGER  AND IS PRINTED AS THE 
+                                                                                            PREDICTED  DEGREE
                                                
 plt.plot(epochs, ns)
 plt.ylabel('Value of n')
