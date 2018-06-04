@@ -41,7 +41,7 @@ def polynomialNeuralNetLayer(x, w, b, n):                                       
     
 *****************************************************************************************
 
-output1 = 2 * delta * polynomialNeuralNetLayer(x, w1, b1, n) + (1 - delta) * (w4 * x + b4)    # A WEIGHTED AVERAGE OF A POLYNOMIAL 
+output1 = n**2 * delta * polynomialNeuralNetLayer(x, w1, b1, n) + (1 - delta) * (w4 * x + b4)    # A WEIGHTED AVERAGE OF A POLYNOMIAL 
 output2 = tf.matmul(output1, w2) + b2                                                       AND A LINEAR LAYER (WEIGHTED BY 
 yHat = tf.matmul(output2, w3) + b3                                                          DELTA) LINEARLY COMBINED WITH 
                                                                                             WEIGHTS AND BIASES FORMS THE MODEL
