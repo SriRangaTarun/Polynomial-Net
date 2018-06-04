@@ -41,7 +41,7 @@ def polynomialNeuralNetLayer(x, w, b, n):                                       
     
 *****************************************************************************************
 
-output1 = delta * polynomialNeuralNetLayer(x, w1, b1, n) + (1 - delta) * (w4 * x + b4)    # A WEIGHTED AVERAGE OF A POLYNOMIAL 
+output1 = 2 * delta * polynomialNeuralNetLayer(x, w1, b1, n) + (1 - delta) * (w4 * x + b4)    # A WEIGHTED AVERAGE OF A POLYNOMIAL 
 output2 = tf.matmul(output1, w2) + b2                                                       AND A LINEAR LAYER (WEIGHTED BY 
 yHat = tf.matmul(output2, w3) + b3                                                          DELTA) LINEARLY COMBINED WITH 
                                                                                             WEIGHTS AND BIASES FORMS THE MODEL
@@ -78,88 +78,4 @@ print(degree)
 *****************************************************************************************
  
                              END OF PROJECT CODE
-                             
-                             
-                          
- import tensorflow as tf
-import numpy as np                                                                        # IMPORT THE REQUIRED LIBRARIES
-import matplotlib.pyplot as plt                                                           
 
-
-
-X = [i for i in range(-100, 100)]                                                         # GENERATE DATA WITH THE RELATIONSHIP
-E = [300.0*np.random.normal() for _ in range(200)]                                       #Y = 50 * X^3 - 20 WITH RANDOM ERROR                                  
-Y = np.multiply(X, [50.]*200) + [-20.]*200 + E              
-
-
-
-sess = tf.InteractiveSession()                                                            # CREATE AN INTERACTIVE TENSORFLOW
-                                                                                            #SESSION 
-
-
-x = tf.placeholder(tf.float32, [None, 1])                                                 # CREATE PLACEHOLDERS FOR SCALARS               
-y = tf.placeholder(tf.float32, [None, 1]) 
-
-#VARIABLES X AND Y                  
-wi = tf.Variable(tf.ones([1, 5]))
-bi = tf.Variable(tf.ones([5]))
-
-w0 = tf.Variable(tf.ones([1, 5]))
-b0 = tf.Variable(tf.ones([5]))
-
-w1 = tf.Variable(tf.ones([1, 5]))
-b1 = tf.Variable(tf.ones([5]))
-
-w2 = tf.Variable(tf.ones([5, 7]))
-b2 = tf.Variable(tf.ones([7]))
-
-w3 = tf.Variable(tf.ones([7, 1]))                                                         # CREATE WEIGHTS, BIASES AND OTHER
-b3 = tf.Variable(tf.ones([1]))                                                              #NETWORK PARAMETERS WITH INITIAL
-                                                                                            #VALUES (N = POLYNOMIAL DEGREE
-                                                                                            #ESTIMATE)
-w4 = tf.Variable(1.0)       
-b4 = tf.Variable(1.0)
-
-n = tf.Variable(1.0)
-
-
-
-def polynomialNeuralNetLayer(x, w, b, n):                                                 # FUNCTION THAT CREATES A "POLYNOMIAL
-    output = tf.abs((tf.matmul(x, w))**2 + b)**(n/2.0)                                      #LAYER" UNLIKE THE USUAL DENSELY
-    return output                                                                           #CONNECTED LAYER
-    
-
-
-output1 = polynomialNeuralNetLayer(x, wi, bi, n) + polynomialNeuralNetLayer(x, w0, b0, n)+ polynomialNeuralNetLayer(x, w1, b1, n)    # A WEIGHTED AVERAGE OF A POLYNOMIAL 
-output2 = tf.matmul(output1, w2) + b2                                                       #AND A LINEAR LAYER (WEIGHTED BY 
-yHat = tf.matmul(output2, w3) + b3                                                          #DELTA) LINEARLY COMBINED WITH 
-                                                                                            #WEIGHTS AND BIASES FORMS THE MODEL
-
-
-J = tf.reduce_mean(tf.abs((y - yHat)))                                                    # THE MEAN OF THE ABSOLUTE VALUE OF  
-optimizer = tf.train.AdamOptimizer(0.01)                                                    #THE DEVIATION OF THE PREDICTIONS 
-train_step = optimizer.minimize(J)                                                          #FROM THE Y VALUES FORMS THE LOSS OR
-                                                                                            #COST FUNCTION. AN ADAM OPTIMIZER WITH  
-                                                                                            #A LEARNING RATE OF 0.01 IS CREATED
-
-
-epochs = [i for i in range(1, 15001)]
-ns = []
-
-tf.global_variables_initializer().run()
-
-for _ in range(15000):                                                                    # THE NETWORK IS TRAINED OVER 15000 
-                                                                                            #EPOCHS AND THE VALUES OF THE
-    sess.run(train_step, feed_dict = {x:np.transpose([X]), y:np.transpose([Y])})            #ESTIMATED DEGREE N IS PLOTTED
-    ns.append(sess.run(n))                                                                  #AGAINST THE EPOCHS. THE FINAL VALUE
-                                                                                            #OF N IS ROUNDED OFF TO THE NEAREST 
-                                                                                            #INTEGER  AND IS PRINTED AS THE 
-                                                                                            #PREDICTED  DEGREE
-                                               
-plt.plot(epochs, ns)
-plt.ylabel('Value of n')
-plt.xlabel('Epochs')
-plt.show()
-
-degree = np.round(sess.run(n))
-print(degree)
