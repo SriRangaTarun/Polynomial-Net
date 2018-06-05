@@ -32,6 +32,8 @@ b4 = tf.Variable(1.0)
 
 n = tf.Variable(1.0)
 delta = tf.Variable(0.5)
+epsilon = tf.Variable(1.0)
+phi = tf.Variable(2.0)
 
 *****************************************************************************************
 
@@ -41,10 +43,10 @@ def polynomialNeuralNetLayer(x, w, b, n):                                       
                                                                                             TO MAKE OUTPUT DIFFERENTIABLE).
 *****************************************************************************************
 
-output1 = n**2 * delta * polynomialNeuralNetLayer(x, w1, b1, n) + (1 - delta) * (w4 * x + b4) # A WEIGHTED AVERAGE OF A POLYNOMIAL 
-output2 = tf.matmul(output1, w2) + b2                                                           AND A LINEAR LAYER (WEIGHTED USING 
-yHat = tf.matmul(output2, w3) + b3                                                              DELTA) LINEARLY COMBINED WITH 
-                                                                                                WEIGHTS AND BIASES FORMS THE MODEL
+output1 = n**phi * delta * polynomialNeuralNetLayer(x, w1, b1, n) + (1 - n**epsilon * delta) * (w4 * x + b4) # A WEIGHTED AVERAGE OF A POLYNOMIAL 
+output2 = tf.matmul(output1, w2) + b2                                                                          AND A LINEAR LAYER (WEIGHTED USING 
+yHat = tf.matmul(output2, w3) + b3                                                                             DELTA) LINEARLY COMBINED WITH 
+                                                                                                               WEIGHTS AND BIASES FORMS THE MODEL
 *****************************************************************************************
 
 J = tf.reduce_mean(tf.abs((y - yHat)))                                                    # THE MEAN OF THE ABSOLUTE VALUE OF  
