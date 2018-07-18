@@ -10,3 +10,5 @@ to make this hyperparameter more of a parameter, something that can be learned f
 this model is not intended to find the "best fitting polynomial degree" (the higher the degree the higher is the maximum level
 of fit). It is intended to find the degree of the "underlying polynomial relationship" between the two variables 
 (any polynomial relationship with degree greater than 0 can be detected by the model).
+
+This code uses the Keras AI library with Tensorflow backend.
