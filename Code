@@ -1,83 +1,94 @@
-import tensorflow as tf
-import numpy as np                                                                        # IMPORT THE REQUIRED LIBRARIES
-import matplotlib.pyplot as plt                                                           
+import numpy as np
 
-*****************************************************************************************
+X = []                                                                       # X and Y are lists containing the values of the independent and 
+Y = []                                                                         dependent variables respectively
 
-X = [i for i in range(-100, 100)]                                                         # GENERATE DATA WITH THE RELATIONSHIP
-E = [200000.0*np.random.normal() for _ in range(200)]                                       Y = 50 * X^3 - 20 WITH RANDOM ERROR                                  
-Y = np.multiply(X, np.multiply(X, np.multiply(X, [50.]*200))) + [-20.]*200 + E              
+num = 30
 
-*****************************************************************************************
+for i in range(-num, num):
+    X.append(i)
+    
+E = []
 
-sess = tf.InteractiveSession()                                                            # CREATE AN INTERACTIVE TENSORFLOW
-                                                                                            SESSION 
-*****************************************************************************************
+for i in range(-num, num):
+    E.append(20000*np.random.normal())                                      # random normal error term
 
-x = tf.placeholder(tf.float32, [None, 1])                                                 # CREATE PLACEHOLDERS FOR SCALARS               
-y = tf.placeholder(tf.float32, [None, 1])                                                   VARIABLES X AND Y                  
+n_samples = 2*num
+Y = np.multiply(X, np.multiply(X, np.multiply(X, X))) - np.multiply(X, X) + E                
 
-w1 = tf.Variable(tf.ones([1, 5]))
-b1 = tf.Variable(tf.ones([5]))
+if min(X) < 0:          
+    X = np.array(X) - [min(np.array(X))]*len(X)
+    
+    
+if max(Y) < 0:
+    Y = [-Y[i] for i in range(0, len(Y))]
+    
+if (Y[0] > Y[n_samples // 2] and Y[n_samples // 2] > Y[n_samples - 1]) or (Y[0] < Y[n_samples // 2] and Y[n_samples - 1] < Y[n_samples // 2]):
+    Y = [-Y[i] for i in range(0, len(Y))]
+    
 
-w2 = tf.Variable(tf.ones([5, 7]))
-b2 = tf.Variable(tf.ones([7]))
+# All the above three if cases manipulate the input data such that the model can find the degree more convenietly (preprocessing data)
+    
+X = np.reshape(X, (len(X), 1))
+Y = np.reshape(Y, (len(Y), 1))
+    
+***********************************************************************************************************************************************
 
-w3 = tf.Variable(tf.ones([7, 1]))                                                         # CREATE WEIGHTS, BIASES AND OTHER
-b3 = tf.Variable(tf.ones([1]))                                                              NETWORK PARAMETERS WITH INITIAL
-                                                                                            VALUES (N = POLYNOMIAL DEGREE
-                                                                                            ESTIMATE)
-w4 = tf.Variable(1.0)       
-b4 = tf.Variable(1.0)
+def buildModelAndPredictDegree(X, Y):                               # Predicts degree of polynomial relationship between X and Y
 
-n = tf.Variable(1.0)
-delta = tf.Variable(0.5)
-epsilon = tf.Variable(1.0)
-psi = tf.Variable(0.5)
+    import keras
+    import tensorflow as tf
+    from math import isnan
+    
+    sess = tf.InteractiveSession()
+    K.set_session(sess)
+    
+    from keras.models import Model
+    from keras.layers import Input, Dense, Lambda, multiply
 
-*****************************************************************************************
+    n = tf.Variable(1.0)
+    x = Input(shape=(1,))
 
-def polynomialNeuralNetLayer(x, w, b, n):                                                 # FUNCTION THAT CREATES A "POLYNOMIAL
-    output = tf.abs((tf.matmul(x, w))**2 + b)**(n/2.0)                                      LAYER" UNLIKE THE USUAL DENSELY
-    return output                                                                           CONNECTED LAYER (ABS FUNCTION USED
-                                                                                            TO MAKE OUTPUT DIFFERENTIABLE).
-*****************************************************************************************
+    dense_a = Dense(2)(x)
+    dense_b = Dense(1)(dense_a)
+    powered_dense1 = Lambda(lambda x: tf.abs(x)**(n/4.0))((dense_b))
+    model1 = Model(x, powered_dense1)
+    model1.layers[-1].trainable_weights.extend([n])
 
-output1 = (tf.abs(n)) ** n * delta * polynomialNeuralNetLayer(x, w1, b1, n) + (psi - n ** epsilon * delta) * (w4 * x + b4) # A WEIGHTED AVERAGE OF A POLYNOMIAL 
-output2 = tf.matmul(output1, w2) + b2                                                                                AND A LINEAR LAYER (WEIGHTED USING 
-yHat = tf.matmul(output2, w3) + b3                                                                                   DELTA, EPSILON AND PSI) LINEARLY 
-                                                                                                                     COMBINED WITH  WEIGHTS AND BIASES FORMS THE MODEL
-*****************************************************************************************
+    dense_c = Dense(2)(x)
+    dense_d = Dense(1)(dense_c)
+    powered_dense2 = Lambda(lambda x: tf.abs(x)**(n/4.0))((dense_d))
+    model2 = Model(x, powered_dense2)
+    model2.layers[-1].trainable_weights.extend([n])
 
-J = tf.reduce_mean(tf.abs((y - yHat)))                                                    # THE MEAN OF THE ABSOLUTE VALUE OF  
-optimizer = tf.train.AdamOptimizer(0.01)                                                    THE DEVIATION OF THE PREDICTIONS 
-train_step = optimizer.minimize(J)                                                          FROM THE Y VALUES FORMS THE LOSS OR
-                                                                                            COST FUNCTION. AN ADAM OPTIMIZER WITH  
-                                                                                            A LEARNING RATE OF 0.01 IS CREATED
-*****************************************************************************************
+    dense_e = Dense(2)(x)                                             # "n" is the parameter representing the degree
+    dense_f = Dense(1)(dense_e)
+    powered_dense3 = Lambda(lambda x: tf.abs(x)**(n/4.0))((dense_f))
+    model3 = Model(x, powered_dense3)
+    model3.layers[-1].trainable_weights.extend([n])
 
-epochs = [i for i in range(1, 15001)]
-ns = []
+    dense_g = Dense(2)(x)
+    dense_h = Dense(1)(dense_g)
+    powered_dense4 = Lambda(lambda x: tf.abs(x)**(n/4.0))((dense_h))
+    model4 = Model(x, powered_dense4)
+    model4.layers[-1].trainable_weights.extend([n])
 
-tf.global_variables_initializer().run()
+    model = Model(x, multiply([model1.output, model2.output, model3.output, model4.output]))
 
-for _ in range(15000):                                                                    # THE NETWORK IS TRAINED OVER 15000 
-                                                                                            EPOCHS AND THE VALUES OF THE
-    sess.run(train_step, feed_dict = {x:np.transpose([X]), y:np.transpose([Y])})            ESTIMATED DEGREE N IS PLOTTED
-    ns.append(sess.run(n))                                                                  AGAINST THE EPOCHS. THE FINAL VALUE
-                                                                                            OF N IS ROUNDED OFF TO THE NEAREST 
-                                                                                            INTEGER  AND IS PRINTED AS THE 
-                                                                                            PREDICTED  DEGREE
-                                               
-plt.plot(epochs, ns)
-plt.ylabel('Value of n')
-plt.xlabel('Epochs')
-plt.show()
+    from keras.optimizers import RMSprop
+    model.compile(loss='mae', optimizer=RMSprop(lr=0.01))
 
-degree = np.round(sess.run(n))
-print("If there is a polynomial relationship between x and y, then the degree of the relationship is : " + str((int) (degree)))
+    for _ in range(0, 5000):                                         
+        model.fit(X, Y, epochs=1, verbose=0)              
+        
+        if isnan(sess.run(n)):                                       # handle numerical instabilities by rebuilding and retraining model when n = "nan"
+           buildModelAndPredictDegree(X, Y)
+        
+    return np.int32(np.round(sess.run(n)))                           # return rounded degree  
 
-*****************************************************************************************
- 
-                             END OF PROJECT CODE
+
+***********************************************************************************************************************************************
+
+print(buildModelAndPredictDegree(X, Y))
+
 
