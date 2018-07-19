@@ -1,7 +1,7 @@
 import numpy as np
 
 X = []                                                                       # X and Y are lists containing the values of the independent and 
-Y = []                                                                         dependent variables respectively
+Y = []                                                                       # dependent variables respectively
 
 num = 30
 
