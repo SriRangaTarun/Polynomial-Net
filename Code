@@ -81,7 +81,7 @@ def buildModelAndPredictDegree(X, Y):                               # Predicts d
     
     tf.global_variables_initializer().run()
     
-    for _ in range(0, 5000):                                         
+    for _ in range(0, 4000):                                         # can be increasesed to 5000 epochs                                    
         model.fit(X, Y, epochs=1, verbose=0)              
         
         if isnan(sess.run(n)):                                       # handle numerical instabilities by rebuilding and retraining model when n = "nan"
