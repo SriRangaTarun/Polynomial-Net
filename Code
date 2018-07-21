@@ -32,7 +32,7 @@ def preprocessData(X, Y):
     X = list(X)
     Y = list(Y)
     
-    threshold = 400                                       # minimum data size
+    threshold = 400                                       # minimum data size (after data augmentation)
     
     X1 = X
     Y1 = Y
@@ -100,7 +100,7 @@ def buildModel():                                                  # builds poly
     exponentialLayers = multiply([model1.output, model2.output, model3.output, model4.output])
     
     model = Model(x, add([exponentialLayers, constantLayer]))
-    model.layers[-1].trainable_weights.extend([a, b, n, c])
+    model.layers[-1].trainable_weights.extend([a, b, c, n])
     
     return model, n
     
@@ -150,8 +150,8 @@ def predictDegree(X, Y):
            
                                              EXAMPLE OF USING THIS MODEL:
                                             
- Check out this polynomial regression dataset here **http://users.stat.ufl.edu/~winner/data/heatcapacity.dat** and the data
- description here : **http://users.stat.ufl.edu/~winner/data/heatcapacity.txt)**. I will use model to find the degree of the
+ Check out this polynomial regression dataset here: http://users.stat.ufl.edu/~winner/data/heatcapacity.dat and the data
+ description here : http://users.stat.ufl.edu/~winner/data/heatcapacity.txt. I will use model to find the degree of the
  polynomial relationship between the two variables involved here: The heat capacities and temperatures of solid Hydrogen
  Bromide in 18 experimental runs. We take the heat capacity as the X variable and the temperature as the Y variable (the
  units of measure are given in the data description).
@@ -207,8 +207,12 @@ import numpy as np
 best_fit = np.polyfit(X, Y, predictDegree(X, Y))    # best fitting polynomial of the "correct" degree
 
 import matplotlib.pyplot as plt
+
 plt.plot(X, Y, 'k')
+
 plt.plot(X, np.multiply(X, np.multiply(X, [best_fit[0]]*len(X))) + np.multiply(X, [best_fit[1]]*len(X)) + [best_fit[2]]*len(X), 'r')
+# The predicted degree is 2 in this case
+
 plt.show()
 
 # Above, we plot and visualize the best fitting curve of the required degree alongside the actual data. The data does seem to 
