@@ -11,6 +11,8 @@ from keras import backend as K
 sess = tf.InteractiveSession()
 K.set_session(sess)
 
+
+
 def preprocessData(X, Y):
 
     # preprocesses data to make the model's job easier
@@ -42,7 +44,7 @@ def preprocessData(X, Y):
             
     # All the above three if cases manipulate the input data such that the model can find the degree more convenietly
     # We also make some use of somemakeshift data augmentation (replicating data points) to make it easier for the model.
-    # Trust me! Replicating the data works pretty well in this use case!
+    # Trust me! Replicating the data works pretty well in this case!
     
     X = np.array(X)
     Y = np.array(Y)
@@ -52,52 +54,67 @@ def preprocessData(X, Y):
     
     return X, Y
     
-def buildModel():                                                  # builds polynomial net model
+    
+    
+def buildModel():                                                  # builds polynomial net model with layers with exponential
+                                                                   # output
     import keras
     import tensorflow as tf
     
     from keras.models import Model
-    from keras.layers import Input, Dense, Lambda, multiply
+    from keras.layers import Input, Dense, Lambda, multiply, add
     
     a = tf.Variable(1.0)
     b = tf.Variable(1.0)
     n = tf.Variable(1.0)
+    c = tf.Variable([[0.0]])
     
     x = Input(shape=(1,))
 
     dense_a = Dense(2)(x)
     dense_b = Dense(1)(dense_a)
-    powered_dense1 = Lambda(lambda x: tf.abs(a * x**2 + b)**(n/8.0))((dense_b))
+    powered_dense1 = Lambda(lambda x: tf.abs(a*x**2 + b)**(n/8.0))((dense_b))
     model1 = Model(x, powered_dense1)
     model1.layers[-1].trainable_weights.extend([a, b, n])
 
     dense_c = Dense(2)(x)
     dense_d = Dense(1)(dense_c)
-    powered_dense2 = Lambda(lambda x: tf.abs(a * x**2 + b)**(n/8.0))((dense_d))
+    powered_dense2 = Lambda(lambda x: tf.abs(a*x**2 + b)**(n/8.0))((dense_d))
     model2 = Model(x, powered_dense2)
     model2.layers[-1].trainable_weights.extend([a, b, n])
 
-    dense_e = Dense(2)(x)                                                      # "n" is the parameter representing the degree
+    dense_e = Dense(2)(x)                                           # "n" is the parameter representing the degree
     dense_f = Dense(1)(dense_e)
-    powered_dense3 = Lambda(lambda x: tf.abs(a * x**2 + b)**(n/8.0))((dense_f))
+    powered_dense3 = Lambda(lambda x: tf.abs(a*x**2 + b)**(n/8.0))((dense_f))
     model3 = Model(x, powered_dense3)
     model3.layers[-1].trainable_weights.extend([a, b, n])
 
     dense_g = Dense(2)(x)
     dense_h = Dense(1)(dense_g)
-    powered_dense4 = Lambda(lambda x: tf.abs(a * x**2 + b)**(n/8.0))((dense_h))
+    powered_dense4 = Lambda(lambda x: tf.abs(a*x**2 + b)**(n/8.0))((dense_h))
     model4 = Model(x, powered_dense4)
     model4.layers[-1].trainable_weights.extend([a, b, n])
-
-    model = Model(x, multiply([model1.output, model2.output, model3.output, model4.output]))
+    
+    constantLayer = Lambda(lambda x: c)(x)
+    
+    exponentLayers = multiply([model1.output, model2.output, model3.output, model4.output])
+    
+    model = Model(x, add([exponentLayers, constantLayer]))
+    model.layers[-1].trainable_weights.extend([a, b, n, c])
+    
     return model, n
+    
+    
     
     
 def trainModel(X, Y, model):                           # fits model to data
     model.fit(X, Y, epochs=1, verbose=0)
     
     
-def predictDegree(X, Y):  
+    
+    
+def predictDegree(X, Y):
+
     import numpy as np                                 # Predicts degree of polynomial relationship between X and Y
     from math import isnan
     
@@ -124,7 +141,8 @@ def predictDegree(X, Y):
             
         i = i + 1
             
-                             # handle numerical instabilities by reinitializing parameters and retraining model when n = "nan"
+     # handle numerical instabilities by reinitializing parameters and retraining model when n = "nan"
+     
         
     return np.int32(np.round(sess.run(n)))       # return rounded degree
     
