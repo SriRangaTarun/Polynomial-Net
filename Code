@@ -97,9 +97,9 @@ def buildModel():                                                  # builds poly
     
     constantLayer = Lambda(lambda x: c)(x)
     
-    exponentLayers = multiply([model1.output, model2.output, model3.output, model4.output])
+    exponentialLayers = multiply([model1.output, model2.output, model3.output, model4.output])
     
-    model = Model(x, add([exponentLayers, constantLayer]))
+    model = Model(x, add([exponentialLayers, constantLayer]))
     model.layers[-1].trainable_weights.extend([a, b, n, c])
     
     return model, n
