@@ -83,7 +83,7 @@ def buildModel():                                                  # builds poly
     model2 = Model(x, powered_dense2)
     model2.layers[-1].trainable_weights.extend([a, b, n])
 
-    dense_e = Dense(2)(x)                                           # "n" is the parameter representing the degree
+    dense_e = Dense(2)(x)                                                      # "n" is the parameter representing the degree
     dense_f = Dense(1)(dense_e)
     powered_dense3 = Lambda(lambda x: tf.abs(a*x**2 + b)**(n/8.0))((dense_f))
     model3 = Model(x, powered_dense3)
@@ -122,7 +122,7 @@ def predictDegree(X, Y):
     model, n = buildModel()
     
     from keras.optimizers import RMSprop
-    model.compile(loss='mae', optimizer=RMSprop(lr=0.01))
+    model.compile(loss='mae', optimizer=RMSprop(lr=0.01))           # We use an RMS Prop optimizer with a learning rate of 0.01
     
     tf.global_variables_initializer().run()
     
@@ -141,7 +141,7 @@ def predictDegree(X, Y):
             
         i = i + 1
             
-     # handle numerical instabilities by reinitializing parameters and retraining model when n = "nan"
+     # handle numerical instabilities by reinitializing parameters and retraining model when n is "not defined"
      
         
     return np.int32(np.round(sess.run(n)))       # return rounded degree
