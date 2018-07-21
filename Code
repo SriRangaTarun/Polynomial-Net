@@ -204,16 +204,17 @@ Y = [118.99,
      182.09]
      
 import numpy as np
-best_fit = np.polyfit(X, Y, predictDegree(X, Y))    # best fitting polynomial of the "correct" degree
+best_fit = np.polyfit(X, Y, predictDegree(X, Y))    # Coefficients of the best fitting polynomial of the "correct" degree
 
 import matplotlib.pyplot as plt
 
-plt.plot(X, Y, 'k')
+plt.plot(X, Y, 'r.')
 
-plt.plot(X, np.multiply(X, np.multiply(X, [best_fit[0]]*len(X))) + np.multiply(X, [best_fit[1]]*len(X)) + [best_fit[2]]*len(X), 'r')
-# The predicted degree is 2 in this case
+plt.plot(X, np.multiply(X, np.multiply(X, [best_fit[0]]*len(X))) + np.multiply(X, [best_fit[1]]*len(X)) + [best_fit[2]]*len(X), 'k')
+# The predicted degree is 2 in this case and therefore the best_fit array has 3 elements for 3 coefficients
 
 plt.show()
 
 # Above, we plot and visualize the best fitting curve of the required degree alongside the actual data. The data does seem to 
-  follow a quadratic curve. The model outputs the correct degree (2).
+  follow a quadratic curve. The model outputs the correct degree (which is 2). The whole degree prediction process takes 
+  approximately 11.46 seconds on a 3.1 GHz Intel i5 core on an iMac.
