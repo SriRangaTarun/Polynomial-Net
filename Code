@@ -1,5 +1,8 @@
-" This the model can take a maximum of 5 to 6 minutes to find the correct degree of the polynomial relationship. But, a gross
-  majority of the time, it takes a maximum of 4 minutes. "
+" This model predicts the degree of a polynomial relationship between two scalar continuous variables given empirical data.
+  Predicting the degree could take a maximum of 30 seconds on a 3.1 GHz Intel i5 core on an iMac. The times are almost always 
+  close to or below 20 seconds. It could even take less than 10 seconds for some low degree tasks. Note that the times are 
+  extremely unpredictable."
+  
   
 import numpy as np
 import tensorflow as tf
@@ -38,7 +41,8 @@ def preprocessData(X, Y):
             Y = Y + Y1 
             
     # All the above three if cases manipulate the input data such that the model can find the degree more convenietly
-    # We also make some use of some simple data augmentation to make it easier for the model.
+    # We also make some use of somemakeshift data augmentation (replicating data points) to make it easier for the model.
+    # Trust me! Replicating the data works pretty well in this use case!
     
     X = np.array(X)
     Y = np.array(Y)
