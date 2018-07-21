@@ -150,8 +150,8 @@ def predictDegree(X, Y):
            
                                              EXAMPLE OF USING THIS MODEL:
                                             
- Check out this polynomial regression dataset here '''http://users.stat.ufl.edu/~winner/data/heatcapacity.dat''' and the data
- description here : '''http://users.stat.ufl.edu/~winner/data/heatcapacity.txt)'''. I will use model to find the degree of the
+ Check out this polynomial regression dataset here **http://users.stat.ufl.edu/~winner/data/heatcapacity.dat** and the data
+ description here : **http://users.stat.ufl.edu/~winner/data/heatcapacity.txt)**. I will use model to find the degree of the
  polynomial relationship between the two variables involved here: The heat capacities and temperatures of solid Hydrogen
  Bromide in 18 experimental runs. We take the heat capacity as the X variable and the temperature as the Y variable (the
  units of measure are given in the data description).
