@@ -67,7 +67,6 @@ def buildModel():                                                  # builds poly
     a = tf.Variable(1.0)
     b = tf.Variable(1.0)
     n = tf.Variable(1.0)
-    c = tf.Variable([[0.0]])
     
     x = Input(shape=(1,))
 
@@ -95,6 +94,7 @@ def buildModel():                                                  # builds poly
     model4 = Model(x, powered_dense4)
     model4.layers[-1].trainable_weights.extend([a, b, n])
     
+    c = tf.Variable([[0.0]])
     constantLayer = Lambda(lambda x: c)(x)
     
     exponentialLayers = multiply([model1.output, model2.output, model3.output, model4.output])
