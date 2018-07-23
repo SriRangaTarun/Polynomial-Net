@@ -121,39 +121,32 @@ def trainModel(X, Y, model):                           # fits model to data
     
     
     
-    
-def predictDegree(X, Y):
-
-    import numpy as np                                 # Predicts degree of polynomial relationship between X and Y
+def predictDegree(X, Y):  
+    import tensorflow as tf
+    import numpy as np                                # Predicts degree of polynomial relationship between X and Y
     from math import isnan
     
     X, Y = preprocessData(X, Y)
     model, n = buildModel()
     
     from keras.optimizers import RMSprop
-    model.compile(loss='mae', optimizer=RMSprop(lr=0.01))           # We use an RMS Prop optimizer with a learning rate of 0.01
+    model.compile(loss='mae', optimizer=RMSprop(lr=0.01))
     
     tf.global_variables_initializer().run()
     
     constant = 200000
     
     X_list = np.reshape(X, (len(X)))
-    epochs = constant//(len(X_list))            # The number of epochs for convergence reduces with increase in size of dataset
+    epochs = constant//(len(X_list))
     
     for i in range(0, epochs):
-        trainModel(X, Y, model)          
-        
-        if isnan(sess.run(n)):     
-            tf.global_variables_initializer().run()
-            model.compile(loss='mae', optimizer=RMSprop(lr=0.01))
-            i = 0
-            
+        trainModel(X, Y, model)             
         i = i + 1
-            
-     # handle numerical instabilities by reinitializing parameters and retraining model when n is "not defined"
-     
         
-    return np.int32(np.round(sess.run(n)))       # return rounded degree
+    if sess.run(n) < 0:
+        predictDegree(X, Y)
+        
+    return np.int32(np.round(sess.run(n)))    # return rounded degree      
     
  ***************************************************************************************************************************
            
