@@ -70,27 +70,23 @@ def buildModel():                                                  # builds poly
     
     x = Input(shape=(1,))
 
-    dense_a = Dense(2)(x)
-    dense_b = Dense(1)(dense_a)
-    powered_dense1 = Lambda(lambda x: tf.abs(a*x**2 + b)**(n/8.0))((dense_b))
+    dense_a = Dense(1)(x)
+    powered_dense1 = Lambda(lambda x: tf.abs(a*x**2 + b)**(n/8.0))(dense_a)
     model1 = Model(x, powered_dense1)
     model1.layers[-1].trainable_weights.extend([a, b, n])
 
-    dense_c = Dense(2)(x)
-    dense_d = Dense(1)(dense_c)
-    powered_dense2 = Lambda(lambda x: tf.abs(a*x**2 + b)**(n/8.0))((dense_d))
+    dense_b = Dense(1)(x)
+    powered_dense2 = Lambda(lambda x: tf.abs(a*x**2 + b)**(n/8.0))(dense_b)
     model2 = Model(x, powered_dense2)
     model2.layers[-1].trainable_weights.extend([a, b, n])
-
-    dense_e = Dense(2)(x)                                                      # "n" is the parameter representing the degree
-    dense_f = Dense(1)(dense_e)
-    powered_dense3 = Lambda(lambda x: tf.abs(a*x**2 + b)**(n/8.0))((dense_f))
+                                                                              # "n" is the parameter representing the degree
+    dense_c = Dense(1)(x)
+    powered_dense3 = Lambda(lambda x: tf.abs(a*x**2 + b)**(n/8.0))(dense_c)
     model3 = Model(x, powered_dense3)
     model3.layers[-1].trainable_weights.extend([a, b, n])
 
-    dense_g = Dense(2)(x)
-    dense_h = Dense(1)(dense_g)
-    powered_dense4 = Lambda(lambda x: tf.abs(a*x**2 + b)**(n/8.0))((dense_h))
+    dense_d = Dense(1)(x)
+    powered_dense4 = Lambda(lambda x: tf.abs(a*x**2 + b)**(n/8.0))(dense_d)
     model4 = Model(x, powered_dense4)
     model4.layers[-1].trainable_weights.extend([a, b, n])
     
