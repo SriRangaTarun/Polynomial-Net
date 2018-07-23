@@ -6,10 +6,12 @@ polynomial model from all possible polynomials to polynomials of just one degree
 can simply find the best fitting polynomial model of the given degree using already existing methods.
 
 This network is trying to learn the degree of the relationship, something considered a hyperparameter. This project is intended 
-to make this hyperparameter more of a parameter, something that can be learned from the data. It is important to be noted that
+to make this hyperparameter more of a parameter, something that can be learned from the data. It is important to note that
 this model is not intended to find the "best fitting polynomial degree" (the higher the degree the higher is the maximum level
 of fit). It is intended to find the degree of the "underlying polynomial relationship" between the two variables (the model 
 works best with polynomial relationships from degree 1 to 6; this is sufficient for real world use because most polynomial 
-relationships occuring in science or technology do not have a degree greater than 6).
+relationships occuring in science or technology do not have a degree greater than 6). Well, it does work for higher degrees
+as well but as the power increases above 6, the ratio of error to Y value that it can handle starts decreasing. It can handle
+pretty high error to Y value ratios for degrees from 1 to 6.
 
 This code uses the Keras AI library with Tensorflow backend.
