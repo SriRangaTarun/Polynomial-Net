@@ -72,11 +72,11 @@ def buildModel():                                                  # builds poly
     
     x = Input(shape=(1,))
     
-    j1 = 0.25
+    j1 = 0.5
     j2 = 1.0
                                  # Hyperparameters that have been set by continuous trail and error
-    k1 = 0.25
-    k2 = 1.0
+    k1 = 1.0
+    k2 = 10.0
     
     dense_a = Dense(2)(x)
     powered_dense1 = Lambda(lambda x: tf.abs(-j1*tf.sigmoid(j2*a)*x**2 - k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1)(dense_a))
