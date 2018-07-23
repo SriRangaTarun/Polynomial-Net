@@ -134,7 +134,7 @@ def predictDegree(X, Y):
     
     tf.global_variables_initializer().run()
     
-    constant = 200000
+    constant = 300000
     
     X_list = np.reshape(X, (len(X)))
     epochs = constant//(len(X_list))
