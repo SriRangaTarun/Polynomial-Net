@@ -1,5 +1,5 @@
 " This model predicts the degree of a polynomial relationship between two scalar continuous variables given empirical data.
-  Predicting the degree could take a maximum of 60 seconds on a 3.1 GHz Intel i5 core on an iMac. The times are almost always 
+  Predicting the degree could take a maximum of 50 seconds on a 3.1 GHz Intel i5 core on an iMac. The times are almost always 
   close to or below 40 seconds. It could even take less than 20 seconds for some low degree tasks. Note that the run times are 
   extremely unpredictable."
   
@@ -14,14 +14,14 @@ K.set_session(sess)
 
 
 def preprocessData(X, Y):
-
-    # preprocesses data to make the model's job easier
+    # preprocesses data
+    
+    import numpy as np
     
     n_samples = len(X)
     
     if min(X) < 0:          
         X = np.array(X) - [min(np.array(X))]*len(X)
-    
     
     if max(Y) < 0:
         Y = [-Y[i] for i in range(0, len(Y))]
@@ -32,7 +32,7 @@ def preprocessData(X, Y):
     X = list(X)
     Y = list(Y)
     
-    threshold = 400                                       # minimum data size (after data augmentation)
+    threshold = 100
     
     X1 = X
     Y1 = Y
@@ -42,20 +42,18 @@ def preprocessData(X, Y):
             X = X + X1
             Y = Y + Y1 
             
-    # All the above three if cases manipulate the input data such that the model can find the degree more convenietly
-    # We also make some use of somemakeshift data augmentation (replicating data points) to make it easier for the model.
-    # Trust me! Replicating the data works pretty well in this case!
-    
+    X = X + [-X[i] for i in range(0, len(X))]
+    Y = Y + [-Y[i] for i in range(0, len(Y))]
+            
+ # All the above three if cases manipulate the input data such that the model can find the degree more convenietly 
+
     X = np.array(X)
     Y = np.array(Y)
-    
-    Y = Y - np.mean(Y)
     
     X = np.reshape(X, (len(X), 1))
     Y = np.reshape(Y, (len(Y), 1))
     
     return X, Y
-    
     
     
 def buildModel():                                                  # builds polynomial net model with layers with exponential
@@ -72,8 +70,8 @@ def buildModel():                                                  # builds poly
     
     x = Input(shape=(1,))
     
-    j1 = 0.5
-    j2 = 1.0
+    j1 = 1.0
+    j2 = 10.0
                                  # Hyperparameters that have been set by continuous trail and error
     k1 = 1.0
     k2 = 10.0
@@ -157,15 +155,6 @@ def predictDegree(X, Y):
  polynomial relationship between the two variables involved here: The heat capacities and temperatures of solid Hydrogen
  Bromide in 18 experimental runs. We take the heat capacity as the X variable and the temperature as the Y variable (the
  units of measure are given in the data description).
- 
-import time
-
-startTime = time.time()
-print("Degree of polynomial relationship : " + str(predictDegree(X, Y)) + " (if there is a polynomial relationship)")
-endTime = time.time()
-print("Time taken : " + str(endTime - startTime) + " s")
-                           
-# In the above code, we predict the degree and measure the time the whole process takes.
 
 X = [10.79,  
      10.80,  
@@ -205,18 +194,28 @@ Y = [118.99,
      177.52,
      182.09]
      
+import time
+
+startTime = time.time()
+print("Degree of polynomial relationship : " + str(predictDegree(X, Y)) + " (if there is a polynomial relationship)")
+endTime = time.time()
+print("Time taken : " + str(endTime - startTime) + " s")
+
+# In the above code, we predict the degree and measure the time the whole process takes.
+                           
+
+     
 import numpy as np
 best_fit = np.polyfit(X, Y, predictDegree(X, Y))    # Coefficients of the best fitting polynomial of the "correct" degree
 
-import matplotlib.pyplot as plt
-
-plt.plot(X, Y, 'r.')
-
-plt.plot(X, np.multiply(X, np.multiply(X, [best_fit[0]]*len(X))) + np.multiply(X, [best_fit[1]]*len(X)) + [best_fit[2]]*len(X), 'k')
+YHat = np.multiply([best_fit[0]]*len(X), np.multiply(X, X)) + np.multiply([best_fit[1]]*len(X), X) + [best_fit[2]]*len(X)
 # The predicted degree is 2 in this case and therefore the best_fit array has 3 elements for 3 coefficients
 
+import matplotlib.pyplot as plt
+plt.plot(X, Y, 'r.')
+plt.plot(X, YHat, 'k')
 plt.show()
 
 # Above, we plot and visualize the best fitting curve of the required degree alongside the actual data. The data does seem to 
   follow a quadratic curve. The model outputs the correct degree (which is 2). The whole degree prediction process takes 
-  approximately 55.77 seconds on a 3.1 GHz Intel i5 core on an iMac.
+  approximately 40.28 seconds on a 3.1 GHz Intel i5 core on an iMac.
