@@ -49,6 +49,8 @@ def preprocessData(X, Y):
     X = np.array(X)
     Y = np.array(Y)
     
+    Y = Y - np.mean(Y)
+    
     X = np.reshape(X, (len(X), 1))
     Y = np.reshape(Y, (len(Y), 1))
     
