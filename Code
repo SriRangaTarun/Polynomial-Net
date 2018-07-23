@@ -233,4 +233,4 @@ plt.show()
 
 # Above, we plot and visualize the best fitting curve of the required degree alongside the actual data. The data does seem to 
   follow a quadratic curve. The model outputs the correct degree (which is 2). The whole degree prediction process takes 
-  approximately 11.46 seconds on a 3.1 GHz Intel i5 core on an iMac.
+  approximately 55.77 seconds on a 3.1 GHz Intel i5 core on an iMac.
