@@ -1,6 +1,6 @@
 " This model predicts the degree of a polynomial relationship between two scalar continuous variables given empirical data.
-  Predicting the degree could take a maximum of 30 seconds on a 3.1 GHz Intel i5 core on an iMac. The times are almost always 
-  close to or below 20 seconds. It could even take less than 10 seconds for some low degree tasks. Note that the run times are 
+  Predicting the degree could take a maximum of 60 seconds on a 3.1 GHz Intel i5 core on an iMac. The times are almost always 
+  close to or below 40 seconds. It could even take less than 20 seconds for some low degree tasks. Note that the run times are 
   extremely unpredictable."
   
   
@@ -76,39 +76,30 @@ def buildModel():                                                  # builds poly
     k1 = 1.0
     k2 = 10.0
     
-    #dense_a = Dense(1)(x)
-    dense_b = Dense(2)(x)
-    powered_dense1 = Lambda(lambda x: tf.abs(-j1*tf.sigmoid(j2*a)*x**2 - k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1)(dense_b))
+    dense_a = Dense(2)(x)
+    powered_dense1 = Lambda(lambda x: tf.abs(-j1*tf.sigmoid(j2*a)*x**2 - k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1)(dense_a))
     model1 = Model(x, powered_dense1)
     model1.layers[-1].trainable_weights.extend([a, b, n])
-
-    #dense_c = Dense(1)(x)
-    dense_d = Dense(2)(x)
-    powered_dense2 = Lambda(lambda x: tf.abs(-j1*tf.sigmoid(j2*a)*x**2 + -k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1)(dense_d))
+    
+    dense_b = Dense(2)(x)
+    powered_dense2 = Lambda(lambda x: tf.abs(-j1*tf.sigmoid(j2*a)*x**2 + -k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1)(dense_b))
     model2 = Model(x, powered_dense2)
     model2.layers[-1].trainable_weights.extend([a, b, n])
+    
+    
 
-    #dense_e = Dense(1)(x)                                                      # "n" is the parameter representing the degree
-    dense_f = Dense(2)(x)
-    powered_dense3 = Lambda(lambda x: tf.abs(j1*tf.sigmoid(j2*a)*x**2 + k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1)(dense_f))
+                                                              # "n" is the parameter representing the degree
+                                                     
+                                                     
+    dense_c = Dense(2)(x)
+    powered_dense3 = Lambda(lambda x: tf.abs(j1*tf.sigmoid(j2*a)*x**2 + k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1)(dense_c))
     model3 = Model(x, powered_dense3)
     model3.layers[-1].trainable_weights.extend([a, b, n])
 
-    #dense_g = Dense(1)(x)
-    dense_h = Dense(2)(x)
-    powered_dense4 = Lambda(lambda x: tf.abs(j1*tf.sigmoid(j2*a)*x**2 + k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1)(dense_h))
+    dense_d = Dense(2)(x)
+    powered_dense4 = Lambda(lambda x: tf.abs(j1*tf.sigmoid(j2*a)*x**2 + k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1)(dense_d))
     model4 = Model(x, powered_dense4)
     model4.layers[-1].trainable_weights.extend([a, b, n])
-    
-    c = tf.Variable([[0.0]])
-    constantLayer = Lambda(lambda x: c)(x)
-    
-    exponentialLayers = multiply([model1.output, model2.output, model3.output, model4.output])
-    
-    model = Model(x, add([exponentialLayers, constantLayer]))
-    model.layers[-1].trainable_weights.extend([a, b, c, n])
-    
-    return model, n)
     
     c = tf.Variable([[0.0]])
     constantLayer = Lambda(lambda x: c)(x)
