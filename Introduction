@@ -1,9 +1,10 @@
 This Project's aim is to create a neural network that can figure out the degree of the relationship between any two scalar 
-variables (I am referring only to statisitcal or non-deterministic realtionships). This algorithm is aimed at helping the 
-researcher or statistician easily figure out the degree of relationship between two scalar continuous random variables w/o
-having to guess the degree by looking at a scatterplot. This saves a lot of time and narrows down the search for the best 
-polynomial model from all possible polynomials to polynomials of just one degree. After the degree is found out, the reasercher
-can simply find the best fitting polynomial model of the given degree using already existing methods.
+variables (statistical or deterministic relationships). This algorithm is aimed at helping the researcher or statistician (who
+is trying to fit a polynomial model to empirical data of two scalar continuous random variables) easily figure out the degree 
+of relationship between two scalar continuous random variables w/o having to guess the degree by looking at a scatterplot. This 
+saves a lot of time and narrows down the search for the best polynomial model from all possible polynomials to polynomials of 
+just one degree. After the degree is found out, the reasercher can simply find the best fitting polynomial model of the given 
+degree using already existing methods.
 
 This network is trying to learn the degree of the relationship, something considered a hyperparameter. This project is intended 
 to make this hyperparameter more of a parameter, something that can be learned from the data. It is important to note that
