@@ -82,7 +82,7 @@ def buildModel():                                                  # builds poly
     model1.layers[-1].trainable_weights.extend([a, b, n])
     
     dense_b = Dense(2)(x)
-    powered_dense2 = Lambda(lambda x: tf.abs(-j1*tf.sigmoid(j2*a)*x**2 + -k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1)(dense_b))
+    powered_dense2 = Lambda(lambda x: tf.abs(-j1*tf.sigmoid(j2*a)*x**2 - k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1)(dense_b))
     model2 = Model(x, powered_dense2)
     model2.layers[-1].trainable_weights.extend([a, b, n])
     
