@@ -132,10 +132,10 @@ def predictDegree(X, Y):
     
     tf.global_variables_initializer().run()
     
-    constant = 200000
+    constant = 300000
     
     X_list = np.reshape(X, (len(X)))
-    epochs = constant//(len(X_list))
+    epochs = constant//(len(X_list))                  # Number of iterations decreases with increase in size of data
     
     for i in range(0, epochs):
         trainModel(X, Y, model)             
