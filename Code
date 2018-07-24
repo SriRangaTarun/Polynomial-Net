@@ -1,6 +1,6 @@
 " This model predicts the degree of a polynomial relationship between two scalar continuous variables given empirical data.
   Predicting the degree could take a maximum of 60 seconds on a 3.1 GHz Intel i5 core on an iMac. The times are almost always 
-  close to or below 40 seconds. It could even take less than 20 seconds for some low degree tasks. Note that the run times are 
+  close to or below 50 seconds. It could even take less than 40 seconds for some low degree tasks. Note that the run times are 
   extremely unpredictable. This model needs at least 15 to 20 datapoints to give correct predictions."
   
   
