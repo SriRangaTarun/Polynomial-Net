@@ -203,7 +203,8 @@ print("Time taken : " + str(endTime - startTime) + " s")
 
      
 import numpy as np
-best_fit = np.polyfit(X, Y, predictDegree(X, Y))    # Coefficients of the best fitting polynomial of the "correct" degree
+degree = predictDegree(X, Y)
+best_fit = np.polyfit(X, Y, degree)    # Coefficients of the best fitting polynomial of the "correct" degree
 
 YHat = np.multiply([best_fit[0]]*len(X), np.multiply(X, X)) + np.multiply([best_fit[1]]*len(X), X) + [best_fit[2]]*len(X)
 # The predicted degree is 2 in this case and therefore the best_fit array has 3 elements for 3 coefficients
