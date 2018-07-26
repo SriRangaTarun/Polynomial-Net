@@ -32,7 +32,7 @@ def preprocessData(X, Y):
     X = list(X)
     Y = list(Y)
     
-    threshold = 200
+    threshold = 100
     
     X1 = X
     Y1 = Y
@@ -132,7 +132,7 @@ def predictDegree(X, Y):
     
     tf.global_variables_initializer().run()
     
-    constant = 150000
+    constant = 215000
     
     X_list = np.reshape(X, (len(X)))
     epochs = constant//(len(X_list))                  # Number of iterations decreases with increase in size of data
