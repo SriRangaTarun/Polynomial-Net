@@ -32,7 +32,7 @@ def preprocessData(X, Y):
     X = list(X)
     Y = list(Y)
     
-    threshold = 100
+    threshold = 1000
     
     X1 = X
     Y1 = Y
@@ -70,19 +70,19 @@ def buildModel():                                                  # builds poly
     
     x = Input(shape=(1,))
     
-    j1 = 1.0
+    j1 = 10.0
     j2 = 10.0
                                  # Hyperparameters that have been set by continuous trail and error
-    k1 = 1.0
+    k1 = 10.0
     k2 = 10.0
     
-    dense_a = Dense(2, kernel_initializer='glorot_normal', bias_initializer='glorot_normal')(x)
-    powered_dense1 = Lambda(lambda x: tf.abs(-j1*tf.sigmoid(j2*a)*x**2 - k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1, kernel_initializer='glorot_normal', bias_initializer='glorot_normal')(dense_a))
+    dense_a = Dense(2, kernel_initializer='glorot_uniform', bias_initializer='glorot_uniform')(x)
+    powered_dense1 = Lambda(lambda x: tf.abs(-j1*tf.sigmoid(j2*a)*x**2 - k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1, kernel_initializer='glorot_uniform', bias_initializer='glorot_uniform')(dense_a))
     model1 = Model(x, powered_dense1)
     model1.layers[-1].trainable_weights.extend([a, b, n])
     
-    dense_b = Dense(2, kernel_initializer='glorot_normal', bias_initializer='glorot_normal')(x)
-    powered_dense2 = Lambda(lambda x: tf.abs(-j1*tf.sigmoid(j2*a)*x**2 - k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1, kernel_initializer='glorot_normal', bias_initializer='glorot_normal')(dense_b))
+    dense_b = Dense(2, kernel_initializer='glorot_uniform', bias_initializer='glorot_uniform')(x)
+    powered_dense2 = Lambda(lambda x: tf.abs(-j1*tf.sigmoid(j2*a)*x**2 - k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1, kernel_initializer='glorot_uniform', bias_initializer='glorot_uniform')(dense_b))
     model2 = Model(x, powered_dense2)
     model2.layers[-1].trainable_weights.extend([a, b, n])
     
@@ -94,13 +94,13 @@ def buildModel():                                                  # builds poly
                                                               # the Glorot or Xavier Normal Initializer
                                                      
                                                      
-    dense_c = Dense(2, kernel_initializer='glorot_normal', bias_initializer='glorot_normal')(x)
-    powered_dense3 = Lambda(lambda x: tf.abs(j1*tf.sigmoid(j2*a)*x**2 + k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1, kernel_initializer='glorot_normal', bias_initializer='glorot_normal')(dense_c))
+    dense_c = Dense(2, kernel_initializer='glorot_uniform', bias_initializer='glorot_uniform')(x)
+    powered_dense3 = Lambda(lambda x: tf.abs(j1*tf.sigmoid(j2*a)*x**2 + k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1, kernel_initializer='glorot_uniform', bias_initializer='glorot_uniform')(dense_c))
     model3 = Model(x, powered_dense3)
     model3.layers[-1].trainable_weights.extend([a, b, n])
 
-    dense_d = Dense(2, kernel_initializer='glorot_normal', bias_initializer='glorot_normal')(x)
-    powered_dense4 = Lambda(lambda x: tf.abs(j1*tf.sigmoid(j2*a)*x**2 + k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1, kernel_initializer='glorot_normal', bias_initializer='glorot_normal')(dense_d))
+    dense_d = Dense(2, kernel_initializer='glorot_uniform', bias_initializer='glorot_uniform')(x)
+    powered_dense4 = Lambda(lambda x: tf.abs(j1*tf.sigmoid(j2*a)*x**2 + k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1, kernel_initializer='glorot_uniform', bias_initializer='glorot_uniform')(dense_d))
     model4 = Model(x, powered_dense4)
     model4.layers[-1].trainable_weights.extend([a, b, n])
     
@@ -132,7 +132,7 @@ def predictDegree(X, Y):
     
     tf.global_variables_initializer().run()
     
-    constant = 215000
+    constant = 200000
     
     X_list = np.reshape(X, (len(X)))
     epochs = constant//(len(X_list))                  # Number of iterations decreases with increase in size of data
