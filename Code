@@ -32,7 +32,7 @@ def preprocessData(X, Y):
     X = list(X)
     Y = list(Y)
     
-    threshold = 1000
+    threshold = 100
     
     X1 = X
     Y1 = Y
@@ -71,10 +71,10 @@ def buildModel():                                                  # builds poly
     x = Input(shape=(1,))
     
     j1 = 10.0
-    j2 = 10.0
+    j2 = 20.0
                                  # Hyperparameters that have been set by continuous trail and error
     k1 = 10.0
-    k2 = 10.0
+    k2 = 20.0
     
     dense_a = Dense(2, kernel_initializer='glorot_uniform', bias_initializer='glorot_uniform')(x)
     powered_dense1 = Lambda(lambda x: tf.abs(-j1*tf.sigmoid(j2*a)*x**2 - k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1, kernel_initializer='glorot_uniform', bias_initializer='glorot_uniform')(dense_a))
