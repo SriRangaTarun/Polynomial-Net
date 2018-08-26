@@ -2,7 +2,7 @@ This Project's aim is to create a neural network that can figure out the degree 
 variables (statistical or deterministic relationships). This algorithm is aimed at helping the researcher or statistician (who
 is trying to fit a polynomial model to empirical data of two scalar continuous random variables) easily figure out the degree 
 of relationship between two scalar continuous random variables w/o having to guess the degree by looking at a scatterplot (
-works best for polynomials of degree 1 to 7; good enough for real world uses). This saves a lot of time and narrows down the 
+works best for polynomials of degree 1 to 4; good enough for real world uses). This saves a lot of time and narrows down the 
 search for the best polynomial model from all possible polynomials to polynomials of just one degree. After the degree is found
 out, the reasercher can simply find the best fitting polynomial model of the given degree using already existing methods.
 
