@@ -70,10 +70,10 @@ def buildModel():                                                  # builds poly
     
     x = Input(shape=(1,))
     
-    j1 = 10.0
+    j1 = 3.0
     j2 = 20.0
                                  # Hyperparameters that have been set by continuous trail and error
-    k1 = 10.0
+    k1 = 3.0
     k2 = 20.0
     
     dense_a = Dense(2, kernel_initializer='glorot_uniform', bias_initializer='glorot_uniform')(x)
