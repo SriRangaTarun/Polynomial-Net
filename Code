@@ -32,15 +32,15 @@ def preprocessData(X, Y):
     X = list(X)
     Y = list(Y)
     
-    threshold = 100
+    threshold = 200
     
     X1 = X
     Y1 = Y
     
     if len(X) < threshold:
-        while len(X) <= threshold and len(Y) <= threshold:
-            X = X + X1
-            Y = Y + Y1 
+        while len(X) < threshold and len(Y) < threshold:
+            X = X + X1[np.random.randint(0, len(X1))]
+            Y = Y + Y1[np.random.randint(0, len(Y1))]
             
     X = X + [-X[i] for i in range(0, len(X))]
     Y = Y + [-Y[i] for i in range(0, len(Y))]
