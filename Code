@@ -69,10 +69,10 @@ def buildModel():                                                  # builds poly
     
     x = Input(shape=(1,))
     
-    j1 = 5.0
+    j1 = 4.5
     j2 = 20.0
                                  # Hyperparameters that have been set by continuous trail and error
-    k1 = 5.0
+    k1 = 4.5
     k2 = 20.0
     
     dense_a = Dense(2, kernel_initializer='glorot_uniform', bias_initializer='glorot_uniform')(x)
@@ -123,6 +123,10 @@ def predictDegree(X, Y):
     import numpy as np                                # Predicts degree of polynomial relationship between X and Y
     from math import isnan
     
+    constant = 15000
+    X_list = np.reshape(X, (len(X)))
+    epochs = constant//(len(X_list))
+    
     X, Y = preprocessData(X, Y)
     model, n = buildModel()
     
@@ -131,17 +135,11 @@ def predictDegree(X, Y):
     
     tf.global_variables_initializer().run()
     
-    constant = 100000
-    
-    X_list = np.reshape(X, (len(X)))
-    epochs = constant//(len(X_list))                  # Number of iterations decreases with increase in size of data
-                                                      # You can experiment with different values of "constant"
-    
     for i in range(0, epochs):
-        trainModel(X, Y, model)             
+        trainModel(X, Y, model)   
         i = i + 1
         
-    return np.int32(np.round(sess.run(n)))    # return rounded degree      
+    return np.int32(np.round(sess.run(n)))   # return rounded degree     
     
  ***************************************************************************************************************************
            
