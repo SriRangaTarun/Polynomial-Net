@@ -31,7 +31,7 @@ def preprocessData(X, Y):
     X = list(X)
     Y = list(Y)
     
-    threshold = 200
+    threshold = 100
     
     X1 = X
     Y1 = Y
