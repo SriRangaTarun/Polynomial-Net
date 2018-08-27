@@ -75,13 +75,13 @@ def buildModel():                                                  # builds poly
     k1 = 4.5
     k2 = 20.0
     
-    dense_a = Dense(2, kernel_initializer='glorot_uniform', bias_initializer='glorot_uniform')(x)
-    powered_dense1 = Lambda(lambda x: tf.abs(-j1*tf.sigmoid(j2*a)*x**2 - k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1, kernel_initializer='glorot_uniform', bias_initializer='glorot_uniform')(dense_a))
+    dense_a = Dense(2, kernel_initializer='glorot_normal', bias_initializer='glorot_normal')(x)
+    powered_dense1 = Lambda(lambda x: tf.abs(-j1*tf.sigmoid(j2*a)*x**2 - k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1, kernel_initializer='glorot_normal', bias_initializer='glorot_normal')(dense_a))
     model1 = Model(x, powered_dense1)
     model1.layers[-1].trainable_weights.extend([a, b, n])
     
-    dense_b = Dense(2, kernel_initializer='glorot_uniform', bias_initializer='glorot_uniform')(x)
-    powered_dense2 = Lambda(lambda x: tf.abs(-j1*tf.sigmoid(j2*a)*x**2 - k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1, kernel_initializer='glorot_uniform', bias_initializer='glorot_uniform')(dense_b))
+    dense_b = Dense(2, kernel_initializer='glorot_normal', bias_initializer='glorot_normal')(x)
+    powered_dense2 = Lambda(lambda x: tf.abs(-j1*tf.sigmoid(j2*a)*x**2 - k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1, kernel_initializer='glorot_normal', bias_initializer='glorot_normal')(dense_b))
     model2 = Model(x, powered_dense2)
     model2.layers[-1].trainable_weights.extend([a, b, n])
     
@@ -93,13 +93,13 @@ def buildModel():                                                  # builds poly
                                                               # the Glorot or Xavier Normal Initializer
                                                      
                                                      
-    dense_c = Dense(2, kernel_initializer='glorot_uniform', bias_initializer='glorot_uniform')(x)
-    powered_dense3 = Lambda(lambda x: tf.abs(j1*tf.sigmoid(j2*a)*x**2 + k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1, kernel_initializer='glorot_uniform', bias_initializer='glorot_uniform')(dense_c))
+    dense_c = Dense(2, kernel_initializer='glorot_normal', bias_initializer='glorot_normal')(x)
+    powered_dense3 = Lambda(lambda x: tf.abs(j1*tf.sigmoid(j2*a)*x**2 + k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1, kernel_initializer='glorot_normal', bias_initializer='glorot_normal')(dense_c))
     model3 = Model(x, powered_dense3)
     model3.layers[-1].trainable_weights.extend([a, b, n])
 
-    dense_d = Dense(2, kernel_initializer='glorot_uniform', bias_initializer='glorot_uniform')(x)
-    powered_dense4 = Lambda(lambda x: tf.abs(j1*tf.sigmoid(j2*a)*x**2 + k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1, kernel_initializer='glorot_uniform', bias_initializer='glorot_uniform')(dense_d))
+    dense_d = Dense(2, kernel_initializer='glorot_normal', bias_initializer='glorot_normal')(x)
+    powered_dense4 = Lambda(lambda x: tf.abs(j1*tf.sigmoid(j2*a)*x**2 + k1*tf.sigmoid(k2*b))**(n/8.0))(Dense(1, kernel_initializer='glorot_normal', bias_initializer='glorot_normal')(dense_d))
     model4 = Model(x, powered_dense4)
     model4.layers[-1].trainable_weights.extend([a, b, n])
     
