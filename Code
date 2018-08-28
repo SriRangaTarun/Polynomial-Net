@@ -1,6 +1,6 @@
 " This model predicts the degree of a polynomial relationship between two scalar continuous variables given empirical data.
-  Predicting the degree always takes less than 10 seconds on an iMac with the default intel i5 core . Note that the run times are 
-  extremely unpredictable. This model needs at least 15 to 20 datapoints to give correct predictions."
+  Predicting the degree always takes less than 20 seconds on an iMac with the default intel i5 core . Note that the run times are 
+  extremely unpredictable. This model needs at least 10 to 15 datapoints to give correct predictions."
   
   
 import numpy as np
