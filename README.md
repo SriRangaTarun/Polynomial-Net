@@ -1,2 +1,2 @@
 # Polynomial Net
-A Neural Network that can approximate the degree of the polynomial relationship between two scalar variables (given that the relationship is polynomial)
+In this project, I created a new deep neural network architecture called PolynomialNet that can approximate the degree of the polynomial relationship between two scalar variables directly using empirical (noisy) data of the two variables. PolynomialNet features a new exponential activation function, that can successfully model 1D polynomial relationships of arbitrarily large degrees.
